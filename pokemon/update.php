@@ -44,8 +44,8 @@ if(isset($_POST['name'])) {
     exit;
 }
 
-if(isset($_POST['price'])) {
-    $price = $_POST['price'];
+if(isset($_POST['evolution'])) {
+    $evolution = $_POST['evolution'];
 } else {
     header('Location: .');
     exit;
@@ -55,16 +55,16 @@ $ok = true;
 if(strlen($name) < 2 || strlen($name) > 100) {
     $ok = false;
 }
-if(!(is_numeric($price) && $price >= 0 && $price <= 1000000)) {
+if(!(is_numeric($evolution) && $evolution >= 0 && $evolution <= 1000000)) {
     $ok = false;
 }
 
 $resultado = 0;
 
 if($ok) {
-    $sql = 'update pokemon set name = :name, price = :price where id = :id';
+    $sql = 'update pokemon set name = :name, evolution = :evolution where id = :id';
     $sentence = $connection->prepare($sql);
-    $parameters = ['name' => $name, 'price' => $price, 'id' => $id];
+    $parameters = ['name' => $name, 'evolution' => $evolution, 'id' => $id];
     foreach($parameters as $nombreParametro => $valorParametro) {
         $sentence->bindValue($nombreParametro, $valorParametro);
     }
@@ -78,7 +78,7 @@ if($ok) {
 
 if($resultado == 0) {
     $_SESSION['old']['name'] = $name;
-    $_SESSION['old']['price'] = $price;
+    $_SESSION['old']['evolution'] = $evolution;
     $url = 'edit.php?op=editpokemon&result=' . $resultado . '&id=' . $id;
 }
 header('Location: ' . $url);

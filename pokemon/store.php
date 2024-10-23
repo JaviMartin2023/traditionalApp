@@ -26,23 +26,23 @@ try {
 $resultado = 0;
 $url = 'create.php?op=insertpokemon&result=' . $resultado;
 
-if(isset($_POST['name']) && isset($_POST['price']) ) {
+if(isset($_POST['name']) && isset($_POST['evolution']) ) {
     $name = $_POST['name'];
-    $price = $_POST['price'];
+    $evolution = $_POST['evolution'];
     $ok = true;
     $name = trim($name);
 
     if(strlen($name) < 2 || strlen($name) > 100) {
         $ok = false;
     }
-    if(!(is_numeric($price) && $price >= 0 && $price <= 1000000)) {
+    if(!(is_numeric($evolution) && $evolution >= 0 && $evolution <= 1000000)) {
         $ok = false;
     }
 
     if($ok) {
-        $sql = 'insert into pokemon (name, price) values (:name, :price)';
+        $sql = 'insert into pokemon (name, evolution) values (:name, :evolution)';
         $sentence = $connection->prepare($sql);
-        $parameters = ['name' => $name, 'price' => $price];
+        $parameters = ['name' => $name, 'evolution' => $evolution];
         foreach($parameters as $nombreParametro => $valorParametro) {
             $sentence->bindValue($nombreParametro, $valorParametro);
         }
@@ -57,7 +57,7 @@ if(isset($_POST['name']) && isset($_POST['price']) ) {
 }
 if($resultado == 0) {
     $_SESSION['old']['name'] = $name;
-    $_SESSION['old']['price'] = $price;
+    $_SESSION['old']['evolution'] = $evolution;
 }
 
 header('Location: ' . $url);

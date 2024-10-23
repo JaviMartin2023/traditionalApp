@@ -86,8 +86,8 @@ $connection = null;
                         <?= $fila['name'] ?>
                     </div>
                     <div class="form-group">
-                        pokemon price:
-                        <?= $fila['price'] ?>
+                        pokemon evolution:
+                        <?= $fila['evolution'] ?>
                     </div>
                     <div class="form-group">
                         <a href="./">back</a>

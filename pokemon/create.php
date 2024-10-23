@@ -10,14 +10,14 @@ if(!isset($_SESSION['user'])) {
 }
 
 $name = '';
-$price = '';
+$evolution = '';
 if(isset($_SESSION['old']['name'])) {
     $name = $_SESSION['old']['name'];
     unset($_SESSION['old']['name']);
 }
-if(isset($_SESSION['old']['price'])) {
-    $price = $_SESSION['old']['price'];
-    unset($_SESSION['old']['price']);
+if(isset($_SESSION['old']['evolution'])) {
+    $evolution = $_SESSION['old']['evolution'];
+    unset($_SESSION['old']['evolution']);
 }
 ?>
 <!doctype html>
@@ -75,8 +75,8 @@ if(isset($_SESSION['old']['price'])) {
                             <input value="<?= $name ?>" required type="text" class="form-control" id="name" name="name" placeholder="pokemon name">
                         </div>
                         <div class="form-group">
-                            <label for="price">pokemon price</label>
-                            <input value="<?= $price ?>" required type="number" step="0.001" class="form-control" id="price" name="price" placeholder="pokemon price">
+                            <label for="evolution">pokemon evolution</label>
+                            <input value="<?= $evolution ?>" required type="number" step="1" class="form-control" id="evolution" name="evolution" placeholder="pokemon evolution">
                         </div>
                         <button type="submit" class="btn btn-primary">add</button>
                     </form>

@@ -89,7 +89,7 @@ try {
                         <tr>
                             <th>id</th>
                             <th>name</th>
-                            <th>price</th>
+                            <th>evolution</th>
                             <?php
                             if(isset($_SESSION['user'])) {
                                 ?>
@@ -108,7 +108,7 @@ try {
                                 <tr >
                                     <td><?php echo $fila['id']; ?></td>
                                     <td><?= $fila['name']; ?></td>
-                                    <td><?= $fila['price']; ?></td>
+                                    <td><?= $fila['evolution']; ?></td>
                                     <?php
                                     //if(isset($_SESSION['user'])) {
                                     if(($user === 'even' && $fila['id'] % 2 == 0) || 
