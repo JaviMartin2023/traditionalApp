@@ -8,55 +8,6 @@ if(!isset($_SESSION['user'])) {
     header('Location:.');
     exit;
 }
-$user = $_SESSION['user'];
-
-try {
-    $connection = new \PDO(
-      'mysql:host=localhost;dbname=productdatabase',
-      'productuser',
-      'productpassword',
-      array(
-        PDO::ATTR_PERSISTENT => true,
-        PDO::MYSQL_ATTR_INIT_COMMAND => 'set names utf8')
-    );
-} catch(PDOException $e) {
-    header('Location: ..');
-    exit;
-}
-
-if(isset($_GET['id'])) {
-    $id = $_GET['id'];
-} else {
-    $url = '.?op=editproduct&result=noid';
-    header('Location: ' . $url);
-    exit;
-}
-
-if(($user === 'even' && $id % 2 != 0) ||
-    ($user === 'odd' && $id % 2 == 0)) {
-    header('Location: .?op=editproduct&result=evenodd');
-    exit;
-}
-
-$sql = 'select * from product where id = :id';
-$sentence = $connection->prepare($sql);
-$parameters = ['id' => $id];
-foreach($parameters as $nombreParametro => $valorParametro) {
-    $sentence->bindValue($nombreParametro, $valorParametro);
-}
-
-try {
-    $sentence->execute();
-    $row = $sentence->fetch();
-} catch(PDOException $e) {
-    header('Location:.');
-    exit;
-}
-
-if($row == null) {
-    header('Location: .');
-    exit;
-}
 
 $name = '';
 $price = '';
@@ -68,14 +19,6 @@ if(isset($_SESSION['old']['price'])) {
     $price = $_SESSION['old']['price'];
     unset($_SESSION['old']['price']);
 }
-$id = $row['id'];
-if($name == '') {
-    $name = $row['name'];
-}
-if($price == '') {
-    $price = $row['price'];
-}
-$connection = null;
 ?>
 <!doctype html>
 <html>
@@ -96,7 +39,7 @@ $connection = null;
                         <a class="nav-link" href="..">home</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="./">product</a>
+                        <a class="nav-link" href="./">pokemon</a>
                     </li>
                 </ul>
             </div>
@@ -104,11 +47,11 @@ $connection = null;
         <main role="main">
             <div class="jumbotron">
                 <div class="container">
-                    <h4 class="display-4">products</h4>
+                    <h4 class="display-4">pokemons</h4>
                 </div>
             </div>
             <div class="container">
-            <?php
+                <?php
                 if(isset($_GET['op']) && isset($_GET['result'])) {
                     if($_GET['result'] > 0) {
                         ?>
@@ -126,17 +69,16 @@ $connection = null;
                 }
                 ?>
                 <div>
-                    <form action="update.php" method="post">
+                    <form action="store.php" method="post">
                         <div class="form-group">
-                            <label for="name">product name</label>
-                            <input value="<?= $name ?>" required type="text" class="form-control" id="name" name="name" placeholder="product name">
+                            <label for="name">pokemon name</label>
+                            <input value="<?= $name ?>" required type="text" class="form-control" id="name" name="name" placeholder="pokemon name">
                         </div>
                         <div class="form-group">
-                            <label for="price">product price</label>
-                            <input value="<?= $price ?>" required type="number" step="0.001" class="form-control" id="price" name="price" placeholder="product price">
+                            <label for="price">pokemon price</label>
+                            <input value="<?= $price ?>" required type="number" step="0.001" class="form-control" id="price" name="price" placeholder="pokemon price">
                         </div>
-                        <input type="hidden" name="id" value="<?= $id ?>" />
-                        <button type="submit" class="btn btn-primary">edit</button>
+                        <button type="submit" class="btn btn-primary">add</button>
                     </form>
                 </div>
                 <hr>

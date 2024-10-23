@@ -5,9 +5,9 @@ error_reporting(E_ALL);
 
 try {
     $connection = new \PDO(
-      'mysql:host=localhost;dbname=productdatabase',
-      'productuser',
-      'productpassword',
+      'mysql:host=localhost;dbname=pokemondatabase',
+      'pokemonuser',
+      'pokemonpassword',
       array(
         PDO::ATTR_PERSISTENT => true,
         PDO::MYSQL_ATTR_INIT_COMMAND => 'set names utf8')
@@ -19,11 +19,11 @@ try {
 if(isset($_GET['id'])) {
     $id = $_GET['id'];
 } else {
-    $url = '.?op=showproduct&result=noid';
+    $url = '.?op=showpokemon&result=noid';
     header('Location: ' . $url);
     exit;
 }
-$sql = 'select * from product where id = :id';
+$sql = 'select * from pokemon where id = :id';
 $sentence = $connection->prepare($sql);
 $parameters = ['id' => $id];
 foreach($parameters as $nombreParametro => $valorParametro) {
@@ -32,13 +32,13 @@ foreach($parameters as $nombreParametro => $valorParametro) {
 try {
     $sentence->execute();
 } catch(PDOException $e) {
-    $url = '.?op=showproduct&result=nosql';
+    $url = '.?op=showpokemon&result=nosql';
     header('Location: ' . $url);
     exit;
 }
 
 if(!$fila = $sentence->fetch()) {
-    $url = '.?op=showproduct&result=nofetch';
+    $url = '.?op=showpokemon&result=nofetch';
     header('Location: ' . $url);
     exit;
 }
@@ -64,7 +64,7 @@ $connection = null;
                         <a class="nav-link" href="..">home</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="./">product</a>
+                        <a class="nav-link" href="./">pokemon</a>
                     </li>
                 </ul>
             </div>
@@ -72,21 +72,21 @@ $connection = null;
         <main role="main">
             <div class="jumbotron">
                 <div class="container">
-                    <h4 class="display-4">products</h4>
+                    <h4 class="display-4">pokemons</h4>
                 </div>
             </div>
             <div class="container">
                 <div>
                     <div class="form-group">
-                        product id #:
+                        pokemon id #:
                         <?= $fila['id'] ?>
                     </div>
                     <div class="form-group">
-                        product name:
+                        pokemon name:
                         <?= $fila['name'] ?>
                     </div>
                     <div class="form-group">
-                        product price:
+                        pokemon price:
                         <?= $fila['price'] ?>
                     </div>
                     <div class="form-group">

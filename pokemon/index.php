@@ -12,9 +12,9 @@ if(isset($_SESSION['user'])) {
 
 try {
     $connection = new PDO(
-      'mysql:host=localhost;dbname=productdatabase',
-      'productuser',
-      'productpassword',
+      'mysql:host=localhost;dbname=pokemondatabase',
+      'pokemonuser',
+      'pokemonpassword',
       array(
         PDO::ATTR_PERSISTENT => true,
         PDO::MYSQL_ATTR_INIT_COMMAND => 'set names utf8')
@@ -23,7 +23,7 @@ try {
     header('Location:..');
     exit;
 }
-$sql = 'select * from product order by name, id';
+$sql = 'select * from pokemon order by name, id';
 try {
     $sentence = $connection->prepare($sql);
     $sentence->execute();
@@ -52,7 +52,7 @@ try {
                         <a class="nav-link" href="..">home</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="./">product</a>
+                        <a class="nav-link" href="./">pokemon</a>
                     </li>
                 </ul>
             </div>
@@ -60,7 +60,7 @@ try {
         <main role="main">
             <div class="jumbotron">
                 <div class="container">
-                    <h4 class="display-4">products</h4>
+                    <h4 class="display-4">pokemons</h4>
                 </div>
             </div>
             <div class="container">
@@ -82,7 +82,7 @@ try {
                 }
                 ?>
                 <div class="row">
-                    <h3>product list</h3>
+                    <h3>pokemon list</h3>
                 </div>
                 <table class="table table-striped table-hover" id="tablaProducto">
                     <thead>
@@ -135,7 +135,7 @@ try {
                     <?php
                     if(isset($_SESSION['user'])) {
                         ?>
-                        <a href="create.php" class="btn btn-success">add product</a>
+                        <a href="create.php" class="btn btn-success">add pokemon</a>
                         <?php
                     }
                     ?>

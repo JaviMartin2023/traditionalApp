@@ -12,9 +12,9 @@ $user = $_SESSION['user'];
 
 try {
     $connection = new \PDO(
-      'mysql:host=localhost;dbname=productdatabase',
-      'productuser',
-      'productpassword',
+      'mysql:host=localhost;dbname=pokemondatabase',
+      'pokemonuser',
+      'pokemonpassword',
       array(
         PDO::ATTR_PERSISTENT => true,
         PDO::MYSQL_ATTR_INIT_COMMAND => 'set names utf8')
@@ -26,14 +26,14 @@ try {
 if(isset($_POST['id'])) {
     $id = $_POST['id'];
 } else {
-    $url = '.?op=updateproduct&result=noid';
+    $url = '.?op=updatepokemon&result=noid';
     header('Location: ' . $url);
     exit;
 }
 
 if(($user === 'even' && $id % 2 != 0) ||
     ($user === 'odd' && $id % 2 == 0)) {
-    header('Location: .?op=updateproduct&result=evenodd');
+    header('Location: .?op=updatepokemon&result=evenodd');
     exit;
 }
 
@@ -62,7 +62,7 @@ if(!(is_numeric($price) && $price >= 0 && $price <= 1000000)) {
 $resultado = 0;
 
 if($ok) {
-    $sql = 'update product set name = :name, price = :price where id = :id';
+    $sql = 'update pokemon set name = :name, price = :price where id = :id';
     $sentence = $connection->prepare($sql);
     $parameters = ['name' => $name, 'price' => $price, 'id' => $id];
     foreach($parameters as $nombreParametro => $valorParametro) {
@@ -71,7 +71,7 @@ if($ok) {
     try {
         $sentence->execute();
         $resultado = $sentence->rowCount();
-        $url = '.?op=editproduct&result=' . $resultado;
+        $url = '.?op=editpokemon&result=' . $resultado;
     } catch(PDOException $e) {
     }
 }
@@ -79,6 +79,6 @@ if($ok) {
 if($resultado == 0) {
     $_SESSION['old']['name'] = $name;
     $_SESSION['old']['price'] = $price;
-    $url = 'edit.php?op=editproduct&result=' . $resultado . '&id=' . $id;
+    $url = 'edit.php?op=editpokemon&result=' . $resultado . '&id=' . $id;
 }
 header('Location: ' . $url);
